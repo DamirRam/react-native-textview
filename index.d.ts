@@ -1,18 +1,18 @@
-import { Component } from 'react';
-import { TextInputProps } from 'react-native';
+import { Component } from "react";
+import { TextInputProps } from "react-native";
 
 interface Props {
-  onChangeText: (text: string) => void;
-  autoFocus: boolean;
-  editable?: boolean;
-  handlesColor?: string;
-  keyboardDismissMode?: 'none' | 'on-drag' | 'interactive';
+  language?: "ru" | "en" | "pl";
 }
 
-class TextView extends Component<Props & TextInputProps> {
-   export const focus: () => void;
-   export const blur: () => void;
-   export const setText: (text: string) => void;
+class TextView extends Component<
+  Props & Omit<TextInputProps, "autoFocus", "clear", "isFocused">
+> {
+  focus: () => void;
+  blur: () => void;
+  //TODO: uncomment when functions work will be fixed
+  //clear: () => void;
+  //isFocused: () => boolean;
 }
 
 export default TextView;
