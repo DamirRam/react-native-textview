@@ -10,6 +10,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.LocaleList;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -784,6 +785,13 @@ public class TextViewManager extends BaseViewManager<SNEditText, LayoutShadowNod
 		view.setBorderColor(SPACING_TYPES[index], rgbComponent, alphaComponent);
 	}
 
+	@ReactProp(name = "language")
+	public void setKeyboardLanguage(SNEditText view, @Nullable String language) {
+		if (language != null) {
+			view.setImeHintLocales(LocaleList.forLanguageTags(language));
+		}
+	}
+
 	@Override
 	protected void onAfterUpdateTransaction(SNEditText view) {
 		super.onAfterUpdateTransaction(view);
@@ -887,7 +895,8 @@ public class TextViewManager extends BaseViewManager<SNEditText, LayoutShadowNod
 		editText.setOnFocusChangeListener(
 				new View.OnFocusChangeListener() {
 					public void onFocusChange(View v, boolean hasFocus) {
-						EventDispatcher eventDispatcher = reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher();
+						EventDispatcher eventDispatcher = reactContext.getNativeModule(UIManagerModule.class)
+								.getEventDispatcher();
 						if (hasFocus) {
 							eventDispatcher.dispatchEvent(new ReactTextInputFocusEvent(editText.getId()));
 						} else {
