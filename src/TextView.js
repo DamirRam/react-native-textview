@@ -14,9 +14,10 @@ import {
   Platform,
   findNodeHandle,
   Text,
-  TouchableWithoutFeedback,
   UIManager,
   requireNativeComponent,
+  TouchableOpacity,
+  StyleSheet,
 } from "react-native";
 const createReactClass = require("create-react-class");
 const invariant = require("invariant");
@@ -175,7 +176,9 @@ const TextView = createReactClass({
     );
 
     return (
-      <TouchableWithoutFeedback
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={1}
         onLayout={props.onLayout}
         onPress={this._onPress}
         rejectResponderTermination={true}
@@ -188,7 +191,7 @@ const TextView = createReactClass({
         testID={props.testID}
       >
         {textContainer}
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   },
 
@@ -220,7 +223,9 @@ const TextView = createReactClass({
     );
 
     return (
-      <TouchableWithoutFeedback
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={1}
         onLayout={props.onLayout}
         onPress={this._onPress}
         rejectResponderTermination={props.rejectResponderTermination}
@@ -233,7 +238,7 @@ const TextView = createReactClass({
         testID={props.testID}
       >
         {textContainer}
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   },
 
@@ -278,7 +283,9 @@ const TextView = createReactClass({
     );
 
     return (
-      <TouchableWithoutFeedback
+      <TouchableOpacity
+        style={styles.container}
+        activeOpacity={1}
         onLayout={props.onLayout}
         onPress={this._onPress}
         accessible={this.props.accessible}
@@ -290,7 +297,7 @@ const TextView = createReactClass({
         testID={this.props.testID}
       >
         {textContainer}
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     );
   },
 
@@ -401,6 +408,12 @@ const TextView = createReactClass({
 
   _onScroll: function (event) {
     this.props.onScroll && this.props.onScroll(event);
+  },
+});
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
   },
 });
 

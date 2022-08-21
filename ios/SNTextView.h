@@ -1,24 +1,17 @@
-//
-//  SNTextView.h
-//  SNTextView
-//
-//  Created by mo on 9/25/17.
-//  Copyright © 2017 standardnotes. All rights reserved.
-//
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-#import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
-#import <React/RCTComponent.h>
+#import "RCTBaseTextInputView.h"
 
-@interface SNTextView : UITextView
+NS_ASSUME_NONNULL_BEGIN
 
-@property (nonatomic, copy) RCTBubblingEventBlock onChangeText;
-@property (nonatomic, assign) UIScrollViewKeyboardDismissMode keyboardDismissMode;
-@property (nonatomic, assign) UIKeyboardAppearance keyboardAppearance;
-@property (nonatomic, assign) BOOL editable;
-@property (nonatomic, assign) CGFloat paddingTop;
-@property (nonatomic, assign) CGFloat paddingLeft;
-@property (nonatomic, assign) CGFloat paddingRight;
-@property (nonatomic, assign) CGFloat paddingBottom;
+@interface SNTextView : RCTBaseTextInputView
+- (void)setLanguage:(NSString *)language;
 
 @end
+
+NS_ASSUME_NONNULL_END

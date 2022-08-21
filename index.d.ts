@@ -6,7 +6,7 @@ interface Props {
 }
 
 class TextView extends Component<
-  Props & Omit<TextInputProps, "autoFocus", "clear", "isFocused">
+  Props & Omit<TextInputProps, "autoFocus", "clear", "isFocused", "multiline">
 > {
   focus: () => void;
   blur: () => void;

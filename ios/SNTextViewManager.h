@@ -1,5 +1,16 @@
-#import <React/RCTViewManager.h>
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-@interface SNTextViewManager : RCTViewManager<UITextViewDelegate>
+#import "RCTBaseTextInputViewManager.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface SNTextViewManager : RCTBaseTextInputViewManager
 
 @end
+
+NS_ASSUME_NONNULL_END
