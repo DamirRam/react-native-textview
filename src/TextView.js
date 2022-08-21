@@ -17,7 +17,6 @@ import {
   TouchableWithoutFeedback,
   UIManager,
   requireNativeComponent,
-  StyleSheet,
 } from "react-native";
 const createReactClass = require("create-react-class");
 const invariant = require("invariant");
@@ -25,20 +24,7 @@ const invariant = require("invariant");
 const TextAncestor = require("./files/TextAncestor");
 const TextInputState = require("./TextInputState");
 
-let AndroidTextInput;
-let RCTMultilineTextInputView;
-let RCTSinglelineTextInputView;
-
-if (Platform.OS === "android") {
-  AndroidTextInput = requireNativeComponent("SNTextView");
-} else if (Platform.OS === "ios") {
-  RCTMultilineTextInputView = requireNativeComponent(
-    "RCTMultilineTextInputView"
-  );
-  RCTSinglelineTextInputView = requireNativeComponent(
-    "RCTSinglelineTextInputView"
-  );
-}
+const SNTextView = requireNativeComponent("SNTextView");
 
 const onlyMultiline = {
   onTextInput: true,
@@ -166,72 +152,27 @@ const TextView = createReactClass({
       };
     }
 
-    if (!props.multiline) {
-      if (__DEV__) {
-        for (const propKey in onlyMultiline) {
-          if (props[propKey]) {
-            const error = new Error(
-              "TextInput prop `" +
-                propKey +
-                "` is only supported with multiline."
-            );
-            console.warn(false, "%s", error.stack);
-          }
+    if (__DEV__) {
+      for (const propKey in onlyMultiline) {
+        if (props[propKey]) {
+          const error = new Error(
+            "TextInput prop `" + propKey + "` is only supported with multiline."
+          );
+          console.warn(false, "%s", error.stack);
         }
       }
-      textContainer = (
-        <RCTSinglelineTextInputView
-          ref={this._setNativeRef}
-          {...props}
-          onFocus={this._onFocus}
-          onBlur={this._onBlur}
-          onChange={this._onChange}
-          onSelectionChange={this._onSelectionChange}
-          onSelectionChangeShouldSetResponder={emptyFunctionThatReturnsTrue}
-          text={this._getText()}
-        />
-      );
-    } else {
-      let children = props.children;
-      let childCount = 0;
-      React.Children.forEach(children, () => ++childCount);
-      invariant(
-        !(props.value && childCount),
-        "Cannot specify both value and children."
-      );
-      if (childCount >= 1) {
-        children = (
-          <Text
-            style={props.style}
-            allowFontScaling={props.allowFontScaling}
-            maxFontSizeMultiplier={props.maxFontSizeMultiplier}
-          >
-            {children}
-          </Text>
-        );
-      }
-      if (props.inputView) {
-        children = [children, props.inputView];
-      }
-      props.style.unshift(styles.multilineInput);
-      textContainer = (
-        <RCTMultilineTextInputView
-          ref={this._setNativeRef}
-          {...props}
-          children={children}
-          onFocus={this._onFocus}
-          onBlur={this._onBlur}
-          onChange={this._onChange}
-          onContentSizeChange={this.props.onContentSizeChange}
-          onSelectionChange={this._onSelectionChange}
-          onTextInput={this._onTextInput}
-          onSelectionChangeShouldSetResponder={emptyFunctionThatReturnsTrue}
-          text={this._getText()}
-          dataDetectorTypes={this.props.dataDetectorTypes}
-          onScroll={this._onScroll}
-        />
-      );
     }
+    textContainer = (
+      <SNTextView
+        ref={this._setNativeRef}
+        {...props}
+        onFocus={this._onFocus}
+        onBlur={this._onBlur}
+        onChange={this._onChange}
+        onSelectionChange={this._onSelectionChange}
+        text={this._getText()}
+      />
+    );
 
     return (
       <TouchableWithoutFeedback
@@ -262,16 +203,8 @@ const TextView = createReactClass({
       };
     }
 
-    const RCTTextInputView = props.multiline
-      ? RCTMultilineTextInputView
-      : RCTSinglelineTextInputView;
-
-    if (props.multiline) {
-      props.style.unshift(styles.multilineInput);
-    }
-
     const textContainer = (
-      <RCTTextInputView
+      <SNTextView
         ref={this._setNativeRef}
         {...props}
         onFocus={this._onFocus}
@@ -280,7 +213,6 @@ const TextView = createReactClass({
         onContentSizeChange={this.props.onContentSizeChange}
         onSelectionChange={this._onSelectionChange}
         onTextInput={this._onTextInput}
-        onSelectionChangeShouldSetResponder={emptyFunctionThatReturnsTrue}
         text={this._getText()}
         dataDetectorTypes={this.props.dataDetectorTypes}
         onScroll={this._onScroll}
@@ -328,7 +260,7 @@ const TextView = createReactClass({
     }
 
     const textContainer = (
-      <AndroidTextInput
+      <SNTextView
         ref={this._setNativeRef}
         {...props}
         mostRecentEventCount={0}
@@ -469,15 +401,6 @@ const TextView = createReactClass({
 
   _onScroll: function (event) {
     this.props.onScroll && this.props.onScroll(event);
-  },
-});
-
-const styles = StyleSheet.create({
-  multilineInput: {
-    // This default top inset makes RCTMultilineTextInputView seem as close as possible
-    // to single-line RCTSinglelineTextInputView defaults, using the system defaults
-    // of font size 17 and a height of 31 points.
-    paddingTop: 5,
   },
 });
 
