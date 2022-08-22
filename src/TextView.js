@@ -18,6 +18,7 @@ import {
   requireNativeComponent,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 const createReactClass = require("create-react-class");
 const invariant = require("invariant");
@@ -190,7 +191,9 @@ const TextView = createReactClass({
         nativeID={this.props.nativeID}
         testID={props.testID}
       >
-        {textContainer}
+        <ScrollView scrollEnabled={false} disableScrollViewPanResponder={true}>
+          {textContainer}
+        </ScrollView>
       </TouchableOpacity>
     );
   },
@@ -237,7 +240,9 @@ const TextView = createReactClass({
         nativeID={this.props.nativeID}
         testID={props.testID}
       >
-        {textContainer}
+        <ScrollView scrollEnabled={false} disableScrollViewPanResponder={true}>
+          {textContainer}
+        </ScrollView>
       </TouchableOpacity>
     );
   },
@@ -296,7 +301,9 @@ const TextView = createReactClass({
         nativeID={this.props.nativeID}
         testID={this.props.testID}
       >
-        {textContainer}
+        <ScrollView scrollEnabled={false} disableScrollViewPanResponder={true}>
+          {textContainer}
+        </ScrollView>
       </TouchableOpacity>
     );
   },
