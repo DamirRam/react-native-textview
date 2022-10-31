@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import com.facebook.common.logging.FLog;
 import com.facebook.infer.annotation.Assertions;
@@ -753,6 +754,7 @@ public class TextViewManager extends BaseViewManager<SNEditText, LayoutShadowNod
 		view.setBorderStyle(borderStyle);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 	@ReactProp(name = "showSoftInputOnFocus", defaultBoolean = true)
 	public void showKeyboardOnFocus(SNEditText view, boolean showKeyboardOnFocus) {
 		view.setShowSoftInputOnFocus(showKeyboardOnFocus);
@@ -787,8 +789,15 @@ public class TextViewManager extends BaseViewManager<SNEditText, LayoutShadowNod
 
 	@ReactProp(name = "language")
 	public void setKeyboardLanguage(SNEditText view, @Nullable String language) {
+
 		if (language != null) {
-			view.setImeHintLocales(LocaleList.forLanguageTags(language));
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                try {
+			        view.setImeHintLocales(LocaleList.forLanguageTags(language));
+                } catch (NullPointerException e) {
+			        FLog.e(TAG, "NullPointerException when setting setImeHintLocales for SNTextView", e);
+                }
+			}
 		}
 	}
 
